@@ -22,9 +22,12 @@ func TestAdd(t *testing.T) {
 	s.Add("foo")
 	s.Add("foo")
 	s.Add("bar")
+	s.Add("biz", "baz")
 	expected := Set(map[string]struct{}{
 		"foo": struct{}{},
 		"bar": struct{}{},
+		"biz": struct{}{},
+		"baz": struct{}{},
 	})
 	assert.Exactly(t, expected, s)
 	// Check that calling Add on an uninitialized set panics.
@@ -68,11 +71,12 @@ func TestSlice(t *testing.T) {
 func Example() {
 	s := New()
 	s.Add("foo")
-	s.Add("bar")
+	s.Add("bar", "baz")
 
 	fmt.Println(s.Contains("foo"))
 
 	s.Remove("bar")
+	s.Remove("baz")
 	fmt.Println(s)
 
 	// Output:

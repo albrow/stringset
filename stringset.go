@@ -22,9 +22,12 @@ func NewFromSlice(slice []string) Set {
 	return s
 }
 
-// Add adds v to the set. If v is alredy in the set, this has no effect.
-func (s Set) Add(v string) {
-	s[v] = struct{}{}
+// Add adds each value in vs to the set. If any value is alredy in the set,
+// this has no effect.
+func (s Set) Add(vs ...string) {
+	for _, v := range vs {
+		s[v] = struct{}{}
+	}
 }
 
 // Remove removes v from the set. If v is not in the set, this has no effect.

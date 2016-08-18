@@ -11,10 +11,10 @@ A simple and space-effecient Go implementation of a set of strings.
 ```go
 s := stringset.New()
 s.Add("foo")
-s.Add("bar")
+s.Add("bar", "baz")
 fmt.Println(s)
 // Output:
-// [foo bar]
+// [bar foo baz]
 
 fmt.Println(s.Contains("foo"))
 // Output:
