@@ -1,6 +1,6 @@
 # stringset
 
-[![Version](https://img.shields.io/badge/version-1.0.0-5272B4.svg)](https://github.com/albrow/stringset/releases)
+[![Version](https://img.shields.io/badge/version-2.0.0-5272B4.svg)](https://github.com/albrow/stringset/releases)
 [![Circle CI](https://img.shields.io/circleci/project/albrow/stringset/master.svg)](https://circleci.com/gh/albrow/stringset/tree/master)
 [![GoDoc](https://godoc.org/github.com/albrow/stringset?status.svg)](https://godoc.org/github.com/albrow/stringset)
 
