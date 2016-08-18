@@ -9,19 +9,19 @@ A simple and space-effecient Go implementation of a set of strings.
 ## Example Usage
 
 ```go
-	s := stringset.New()
-	s.Add("foo")
-	s.Add("bar")
-  fmt.Println(s)
-  // Output:
-  // [foo bar]
+s := stringset.New()
+s.Add("foo")
+s.Add("bar")
+fmt.Println(s)
+// Output:
+// [foo bar]
 
-	fmt.Println(s.Contains("foo"))
-  // Output:
-  // true
+fmt.Println(s.Contains("foo"))
+// Output:
+// true
 
-	s.Remove("bar")
-	fmt.Println(s)
-  // Output:
-  // [foo]
+s.Remove("bar")
+fmt.Println(s)
+// Output:
+// [foo]
 ```
