@@ -6,7 +6,7 @@
 
 A simple and space-effecient Go implementation of a set of strings.
 
-## Example Usage
+## Basic Usage
 
 ```go
 s := stringset.New()

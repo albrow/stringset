@@ -8,6 +8,22 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func Example() {
+	s := New()
+	s.Add("foo")
+	s.Add("bar", "baz")
+
+	fmt.Println(s.Contains("foo"))
+
+	s.Remove("bar")
+	s.Remove("baz")
+	fmt.Println(s)
+
+	// Output:
+	// true
+	// [foo]
+}
+
 func TestNewFromSlice(t *testing.T) {
 	s := NewFromSlice([]string{"foo", "bar", "foo"})
 	expected := Set(map[string]struct{}{
@@ -68,18 +84,146 @@ func TestSlice(t *testing.T) {
 	assert.Exactly(t, []string{}, uninitialized.Slice())
 }
 
-func Example() {
-	s := New()
-	s.Add("foo")
-	s.Add("bar", "baz")
+func TestUnion(t *testing.T) {
+	testCases := []struct {
+		a        Set
+		b        Set
+		expected Set
+	}{
+		{
+			a:        NewFromSlice([]string{"a", "b", "c", "d"}),
+			b:        NewFromSlice([]string{"c", "d", "e", "f"}),
+			expected: NewFromSlice([]string{"a", "b", "c", "d", "e", "f"}),
+		},
+		{
+			a:        NewFromSlice([]string{"a", "b", "c", "d"}),
+			b:        New(),
+			expected: NewFromSlice([]string{"a", "b", "c", "d"}),
+		},
+		{
+			a:        New(),
+			b:        NewFromSlice([]string{"a", "b", "c", "d"}),
+			expected: NewFromSlice([]string{"a", "b", "c", "d"}),
+		},
+		{
+			a:        NewFromSlice([]string{"a", "b", "c", "d"}),
+			b:        nil,
+			expected: NewFromSlice([]string{"a", "b", "c", "d"}),
+		},
+		{
+			a:        nil,
+			b:        NewFromSlice([]string{"a", "b", "c", "d"}),
+			expected: NewFromSlice([]string{"a", "b", "c", "d"}),
+		},
+		{
+			a:        nil,
+			b:        nil,
+			expected: New(),
+		},
+		{
+			a:        New(),
+			b:        New(),
+			expected: New(),
+		},
+	}
+	for i, tc := range testCases {
+		actual := Union(tc.a, tc.b)
+		assert.Exactly(t, tc.expected, actual, "test case: %d", i)
+	}
+}
 
-	fmt.Println(s.Contains("foo"))
+func TestIntersect(t *testing.T) {
+	testCases := []struct {
+		a        Set
+		b        Set
+		expected Set
+	}{
+		{
+			a:        NewFromSlice([]string{"a", "b", "c", "d"}),
+			b:        NewFromSlice([]string{"c", "d", "e", "f"}),
+			expected: NewFromSlice([]string{"c", "d"}),
+		},
+		{
+			a:        NewFromSlice([]string{"a", "b", "c", "d"}),
+			b:        New(),
+			expected: New(),
+		},
+		{
+			a:        New(),
+			b:        NewFromSlice([]string{"a", "b", "c", "d"}),
+			expected: New(),
+		},
+		{
+			a:        NewFromSlice([]string{"a", "b", "c", "d"}),
+			b:        nil,
+			expected: New(),
+		},
+		{
+			a:        nil,
+			b:        NewFromSlice([]string{"a", "b", "c", "d"}),
+			expected: New(),
+		},
+		{
+			a:        nil,
+			b:        nil,
+			expected: New(),
+		},
+		{
+			a:        New(),
+			b:        New(),
+			expected: New(),
+		},
+	}
+	for i, tc := range testCases {
+		actual := Intersect(tc.a, tc.b)
+		assert.Exactly(t, tc.expected, actual, "test case: %d", i)
+	}
+}
 
-	s.Remove("bar")
-	s.Remove("baz")
-	fmt.Println(s)
-
-	// Output:
-	// true
-	// [foo]
+func TestDiff(t *testing.T) {
+	testCases := []struct {
+		a        Set
+		b        Set
+		expected Set
+	}{
+		{
+			a:        NewFromSlice([]string{"a", "b", "c", "d"}),
+			b:        NewFromSlice([]string{"c", "d", "e", "f"}),
+			expected: NewFromSlice([]string{"a", "b"}),
+		},
+		{
+			a:        NewFromSlice([]string{"a", "b", "c", "d"}),
+			b:        New(),
+			expected: NewFromSlice([]string{"a", "b", "c", "d"}),
+		},
+		{
+			a:        New(),
+			b:        NewFromSlice([]string{"a", "b", "c", "d"}),
+			expected: New(),
+		},
+		{
+			a:        NewFromSlice([]string{"a", "b", "c", "d"}),
+			b:        nil,
+			expected: NewFromSlice([]string{"a", "b", "c", "d"}),
+		},
+		{
+			a:        nil,
+			b:        NewFromSlice([]string{"a", "b", "c", "d"}),
+			expected: New(),
+		},
+		{
+			a:        nil,
+			b:        nil,
+			expected: New(),
+		},
+		{
+			a:        New(),
+			b:        New(),
+			expected: New(),
+		},
+	}
+	for i, tc := range testCases {
+		actual := Diff(tc.a, tc.b)
+		assert.Exactly(t, tc.expected, actual, "test case: %d", i)
+	}
 }
