@@ -2,7 +2,10 @@
 // strings.
 package stringset
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
 // Set is an unsorted set of unique strings.
 type Set map[string]struct{}
@@ -52,6 +55,13 @@ func (s Set) Slice() []string {
 		i++
 	}
 	return slice
+}
+
+// SortedSlice returns the elements in the set as a sorted slice of strings.
+// It returns an empty slice if the set contains no elements. The elements
+// returned will be in sorted order according to sort.Strings.
+func (s Set) SortedSlice() []string {
+	return sort.Strings(s.Slice())
 }
 
 // String implements the Stringer interface.
