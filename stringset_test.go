@@ -76,8 +76,17 @@ func TestSlice(t *testing.T) {
 	s := NewFromSlice([]string{"foo", "bar", "foo"})
 	expected := []string{"foo", "bar"}
 	actual := s.Slice()
+	assert.ElementsMatch(t, expected, actual)
+	// Slice should return an empty slice for an uninitialized set.
+	var uninitialized Set
+	assert.Exactly(t, []string{}, uninitialized.Slice())
+}
+
+func TestSortedSlice(t *testing.T) {
+	s := NewFromSlice([]string{"foo", "bar", "foo"})
+	expected := []string{"bar", "foo"}
+	actual := s.SortedSlice()
 	sort.Strings(expected)
-	sort.Strings(actual)
 	assert.Exactly(t, expected, actual)
 	// Slice should return an empty slice for an uninitialized set.
 	var uninitialized Set
